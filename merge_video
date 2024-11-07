@@ -1,0 +1,13 @@
+#! /bin/bash
+
+# Script merges two video files
+# and merges video stream from 1st one with
+# sound from 2nd one.
+
+echo "What's a name of a new file?"
+read name
+
+ffmpeg -i $1 -i $2 -c copy -map 0:0 -map 1:1 -vcodec libx264 -preset fast -crf 22 -acodec aac -shortest $name
+
+trash-put $1
+trash-put $2
