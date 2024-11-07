@@ -1,0 +1,30 @@
+#!/bin/bash
+echo "
+
+    This script uses ffmpeg to convert video 
+    to png image sequences.
+"
+
+if [ $(which ffmpeg 2>/dev/null) ]
+then
+    echo "
+    Select sequence speed:
+    - type 1 for no change
+    - more than 1 to speed up
+    - less than 1 to slow down"
+    read speed
+
+    mkdir "${1%.*}"
+    framerate=$(ffmpeg -i $1 2>&1 | sed -n "s/.*, \(.*\) fp.*/\1/p")
+    framerate_double=$(echo "$framerate/$speed" | bc )
+    echo $framerate_double
+
+    ffmpeg -i "$1" -r $framerate_double "${1%.*}"/"${1%.*}"%04d.png
+else
+    echo "
+    -------------------------------------------
+    You need ffmpeg installed.
+    Please install ffmpeg and run script again.
+    -------------------------------------------
+    "
+fi

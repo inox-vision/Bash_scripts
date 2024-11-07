@@ -1,0 +1,6 @@
+#!/bin/bash
+
+rm ${1%.mov}.mp4
+ffmpeg -i "$1" -acodec aac -vcodec libx264 -preset ultrafast -crf 22 "${1%.mov}.mp4"
+paplay /home/adrian/media/CACHE/SOUND/Woosh.wav
+trash-put "$1"

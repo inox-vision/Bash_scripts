@@ -1,0 +1,75 @@
+#!/bin/bash
+
+echo """
+This script pings hosts in known private network
+classes.
+
+Specify which network class you want to scan for hosts:
+
+type A for 10.0.0.0/8
+type B for 172.16.0.0/12
+type C for 192.168.0.0/16
+type all to scan A, B, C classes.
+
+Results of scan can be viewed in 'ping_sweep_result' file.
+"""
+# Cleaning previous report file
+echo "" > ping_sweep_result
+read -p "What do you want to scan?" class
+
+class_C_scan () {
+	echo "Scanning IP addresses:"
+	for third in {0..255}
+	do
+		for fourth in {0..254}
+			do
+			printf "%s\r" "192.168.$third.$fourth"
+			ping -c 1 192.168.$third.$fourth | grep "64 bytes" | cut -d " " -f 4 | tr -d ":" >> ping_sweep_result  &
+	done
+done
+}
+
+if [ $class == "a" ] || [ $class == "A" ] ; then
+	class_A_scan
+elif [ $class == "b" ] || [ $class == "B" ] ; then 
+	class_B_scan
+elif [ $class == "c" ] || [ $class == "C" ] ; then 
+	class_C_scan
+elif [ $class == "all" ] || [ $class == "ALL" ] ; then 
+	class_A_scan
+	class_B_scan
+	class_C_scan
+else
+echo """
+User input not recognized. 
+Please choose one of available options
+"""
+fi
+echo "Hosts found:"
+echo $(cat ping_sweep_result)
+
+
+# for seccond in {0..255}
+# do
+# 	for third in {0..255}
+# 	do
+# 		for fourth in {0..254}
+# 		do
+# 			printf "%s\r" "10.$seccond.$third.$fourth"
+# 			ping -c 1 10.$seccond.$third.$fourth | grep "64 bytes" | cut -d " " -f 4 | tr -d ":" >> ping_sweep_result  &
+# 		done
+# 	done
+# done
+
+
+# for seccond in {16..31}
+# do
+# 	for third in {0..255}
+# 	do
+# 		for fourth in {0..254}
+# 		do
+# 			printf "%s\r" "172.$seccond.$third.$fourth"
+# 			ping -c 1 172.$seccond.$third.$fourth | grep "64 bytes" | cut -d " " -f 4 | tr -d ":" >> ping_sweep_result  &
+# 		done
+# 	done
+# done
