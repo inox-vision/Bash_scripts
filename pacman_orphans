@@ -1,3 +1,6 @@
 #! /bin/bash
 
+# Just a script to remove package orphans.
+# A result of not using -Rs ...
+
 pacman -Qtdq | pacman -Rns -

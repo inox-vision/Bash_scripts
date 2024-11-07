@@ -1,6 +1,16 @@
 #!/bin/bash
 
+# Script converts uncompressed mov files to mp4 file with aac audio encoding
+# and x264 video encoder. Encoding is fast and does not guarantee good visual results.
+
 rm ${1%.mov}.mp4
 ffmpeg -i "$1" -acodec aac -vcodec libx264 -preset ultrafast -crf 22 "${1%.mov}.mp4"
+
+# There is no GUI for ths command,so to stay informed 
+# that this operation finished I play myself a woosh sound.
+
 paplay /home/adrian/media/CACHE/SOUND/Woosh.wav
+
+# Mostly I want the original file to vanish after convertion.
+
 trash-put "$1"

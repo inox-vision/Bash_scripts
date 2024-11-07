@@ -9,7 +9,7 @@ ffmpeg -i "$1" -acodec aac -vcodec libx264 -preset slow -crf 18 "${1%.mov}.mp4"
 
 # There is no GUI for ths command,so to stay informed 
 # that this operation finished I play myself a woosh sound.
-#
+
 paplay /home/adrian/media/CACHE/SOUND/Woosh.wav
 
 # Mostly I want the original file to vanish after convertion.

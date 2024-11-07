@@ -15,7 +15,39 @@ Results of scan can be viewed in 'ping_sweep_result' file.
 """
 # Cleaning previous report file
 echo "" > ping_sweep_result
-read -p "What do you want to scan?" class
+echo "What do you want to scan?"
+read class
+
+
+class_A_scan () {
+	echo "Scanning IP addresses:"
+	for seccond in {0..255}
+	do
+		for third in {0..255}
+		do
+			for fourth in {0..255}
+			do
+				printf "%s\r" "10.$seccond.$third.$fourth"
+				ping -c 1 10.$seccond.$third.$fourth | grep "64 bytes" | cut -d " " -f 4 | tr -d ":" >> ping_sweep_result  &
+			done
+		done
+	done
+}
+
+class_B_scan () {
+	echo "Scanning IP addresses:"
+	for seccond in {16..31}
+	do
+		for third in {0..255}
+		do
+			for fourth in {0..255}
+			do
+				printf "%s\r" "172.$seccond.$third.$fourth"
+				ping -c 1 172.$seccond.$third.$fourth | grep "64 bytes" | cut -d " " -f 4 | tr -d ":" >> ping_sweep_result  &
+			done
+		done
+	done
+}
 
 class_C_scan () {
 	echo "Scanning IP addresses:"
@@ -29,47 +61,40 @@ class_C_scan () {
 done
 }
 
-if [ $class == "a" ] || [ $class == "A" ] ; then
+
+case $class in
+
+	"A" | "a")
 	class_A_scan
-elif [ $class == "b" ] || [ $class == "B" ] ; then 
+	;;
+
+	"B" | "b")
 	class_B_scan
-elif [ $class == "c" ] || [ $class == "C" ] ; then 
+	;;
+
+	"C" | "c")
 	class_C_scan
-elif [ $class == "all" ] || [ $class == "ALL" ] ; then 
+	;;
+
+	"all" | "ALL")
 	class_A_scan
 	class_B_scan
 	class_C_scan
-else
-echo """
-User input not recognized. 
-Please choose one of available options
-"""
-fi
-echo "Hosts found:"
+	;;
+
+	*)
+	echo "
+	--- invalid input ---
+	Please use one of 
+	available options:
+	A  |  B  |  C  |  all"
+	;;
+
+esac
+
+
+
+echo "Found hosts:"
 echo $(cat ping_sweep_result)
 
 
-# for seccond in {0..255}
-# do
-# 	for third in {0..255}
-# 	do
-# 		for fourth in {0..254}
-# 		do
-# 			printf "%s\r" "10.$seccond.$third.$fourth"
-# 			ping -c 1 10.$seccond.$third.$fourth | grep "64 bytes" | cut -d " " -f 4 | tr -d ":" >> ping_sweep_result  &
-# 		done
-# 	done
-# done
-
-
-# for seccond in {16..31}
-# do
-# 	for third in {0..255}
-# 	do
-# 		for fourth in {0..254}
-# 		do
-# 			printf "%s\r" "172.$seccond.$third.$fourth"
-# 			ping -c 1 172.$seccond.$third.$fourth | grep "64 bytes" | cut -d " " -f 4 | tr -d ":" >> ping_sweep_result  &
-# 		done
-# 	done
-# done
