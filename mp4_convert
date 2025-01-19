@@ -14,4 +14,4 @@ paplay /home/adrian/media/CACHE/SOUND/Woosh.wav
 
 # Mostly I want the original file to vanish after convertion.
 
-# trash-put "$1"
+trash-put "$1"

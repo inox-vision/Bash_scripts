@@ -20,6 +20,15 @@ then
     echo $framerate_double
 
     ffmpeg -i "$1" -r $framerate_double "${1%.*}"/"${1%.*}"%04d.png
+    
+    #conversion to jpg files
+    cd "${1%.*}"
+    for file in * 
+    do 
+        magick "$file" "${file%.png}".jpg 
+        rm "$file" 
+    done
+
 else
     echo "
     -------------------------------------------

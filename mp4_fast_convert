@@ -4,7 +4,7 @@
 # and x264 video encoder. Encoding is fast and does not guarantee good visual results.
 
 rm ${1%.mov}.mp4
-ffmpeg -i "$1" -acodec aac -vcodec libx264 -preset ultrafast -crf 22 "${1%.mov}.mp4"
+ffmpeg -i "$1" -acodec aac -vcodec libx264 -preset fast -crf 40 "${1%.mov}.mp4"
 
 # There is no GUI for ths command,so to stay informed 
 # that this operation finished I play myself a woosh sound.
