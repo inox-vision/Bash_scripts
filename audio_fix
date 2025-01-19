@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ffmpeg -i $1 -acodec pcm_s16le -vcodec copy $1.mp4
+mv $1.mp4 $1

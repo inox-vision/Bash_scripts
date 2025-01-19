@@ -1,0 +1,25 @@
+#! /bin/bash
+
+# Your wife shot a lot of movies during vacation and you need to store them somehow
+# but they take a lot of space?
+# This script got you covered!
+# It changes portrait movies to landscape aspect
+# and merges them into one single video file.
+
+for movie in *.mp4 *.MP4
+do 
+	ffmpeg -i $movie -vf "scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:-1:-1:color=black" "${movie%.*}-2.mp4"
+	rm $movie
+done
+
+touch videos
+
+for file in *.mp4
+do 
+	echo "file '$file'" >> videos
+done
+
+ffmpeg -f concat -safe 0 -i videos -c copy filmy.mp4
+#find . -name "*.mp4" -o -name "*.MP4" -not -name "filmy.mp4" -delete
+
+rm videos

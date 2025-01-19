@@ -1,0 +1,6 @@
+#! /bin/bash
+
+for file in *.jpg *.jpeg *.JPG *.JPEG
+do 
+	magick $file -quality 70 -resize 4000X4000 $file & 
+done
