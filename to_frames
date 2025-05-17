@@ -15,7 +15,7 @@ then
     read speed
 
     mkdir "${1%.*}"
-    framerate=$(ffmpeg -i $1 2>&1 | sed -n "s/.*, \(.*\) fp.*/\1/p")
+    framerate=$(ffmpeg -i "$1" 2>&1 | sed -n "s/.*, \(.*\) fp.*/\1/p")
     framerate_double=$(echo "$framerate/$speed" | bc )
     echo $framerate_double
 
